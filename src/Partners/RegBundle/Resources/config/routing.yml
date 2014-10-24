@@ -1,0 +1,3 @@
+partners_reg_homepage:
+    path:     /registration/
+    defaults: { _controller: RegBundle:Default:index }

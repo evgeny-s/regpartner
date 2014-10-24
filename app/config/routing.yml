@@ -1,0 +1,11 @@
+reg:
+    resource: "@RegBundle/Resources/config/routing.yml"
+    prefix:   /
+
+root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: partners_reg_homepage
+        permanent: true
+
