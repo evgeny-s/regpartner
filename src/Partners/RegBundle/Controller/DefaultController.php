@@ -15,7 +15,11 @@ class DefaultController extends Controller
 
         return $this->render(
             'RegBundle:Default:index.html.twig',
-            array('form' => $form->createView())
+            array(
+                'form' => $form->createView(),
+                'type_user' => User::TYPE_USER,
+                'type_partner' => User::TYPE_PARTNER
+            )
         );
     }
 }

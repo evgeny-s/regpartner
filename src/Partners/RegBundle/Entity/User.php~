@@ -376,44 +376,4 @@ class User
     {
         return $this->type;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->userSites = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add userSites
-     *
-     * @param \Partners\RegBundle\Entity\Site $userSites
-     * @return User
-     */
-    public function addUserSite(\Partners\RegBundle\Entity\Site $userSites)
-    {
-        $this->userSites[] = $userSites;
-
-        return $this;
-    }
-
-    /**
-     * Remove userSites
-     *
-     * @param \Partners\RegBundle\Entity\Site $userSites
-     */
-    public function removeUserSite(\Partners\RegBundle\Entity\Site $userSites)
-    {
-        $this->userSites->removeElement($userSites);
-    }
-
-    /**
-     * Get userSites
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getUserSites()
-    {
-        return $this->userSites;
-    }
 }
