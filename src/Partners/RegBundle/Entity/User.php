@@ -4,6 +4,7 @@ namespace Partners\RegBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * User
@@ -15,6 +16,9 @@ class User
 {
     const TYPE_USER = 1;
     const TYPE_PARTNER = 2;
+    const START_BALANCE = 10;
+    const IS_CONFIRMED_TRUE = 1;
+    const BONUS_FOR_USER = 100;
 
     /**
      * @var integer
@@ -28,14 +32,14 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="fio", type="string", length=255)
+     * @ORM\Column(name="fio", type="string", length=255, nullable=true)
      */
     private $fio;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="phone", type="string", length=255)
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
      */
     private $phone;
 
@@ -56,37 +60,44 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="confirm_code", type="string", length=255)
+     * @ORM\Column(name="confirm_code", type="string", length=255, nullable=true)
      */
     private $confirmCode;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="partner_code", type="string", length=255)
+     * @ORM\Column(name="partner_code", type="string", length=255, nullable=true)
      */
     private $partnerCode;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="balance", type="integer")
+     * @ORM\Column(name="balance", type="integer", nullable=true)
      */
     private $balance;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="type", type="integer")
+     * @ORM\Column(name="type", type="integer", nullable=true)
      */
     private $type;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="is_confirmed", type="integer", nullable=true)
+     */
+    private $isConfirmed;
 
     /**
      * @ORM\ManyToMany(targetEntity="Site")
@@ -382,6 +393,8 @@ class User
     public function __construct()
     {
         $this->userSites = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
     }
 
     /**
@@ -415,5 +428,43 @@ class User
     public function getUserSites()
     {
         return $this->userSites;
+    }
+
+    public function validate(ExecutionContextInterface $context)
+    {
+        if ($this->getType() == self::TYPE_PARTNER) {
+            $not_blank_fields_for_partner = array('fio', 'phone');
+            foreach($not_blank_fields_for_partner as $field) {
+                if (! $this->{'get' . $field}()) {
+                    $context->buildViolation('This value should not be blank.')
+                        ->atPath($field)
+                        ->addViolation();
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Set isConfirmed
+     *
+     * @param integer $isConfirmed
+     * @return User
+     */
+    public function setIsConfirmed($isConfirmed)
+    {
+        $this->isConfirmed = $isConfirmed;
+
+        return $this;
+    }
+
+    /**
+     * Get isConfirmed
+     *
+     * @return integer 
+     */
+    public function getIsConfirmed()
+    {
+        return $this->isConfirmed;
     }
 }

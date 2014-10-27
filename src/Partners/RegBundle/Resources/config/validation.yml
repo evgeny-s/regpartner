@@ -1,0 +1,25 @@
+Partners\RegBundle\Entity\User:
+    properties:
+        login:
+            - NotBlank: ~
+            - Regex:
+                pattern: '/^[а-яА-Яa-zA-Z\d]+$/'
+                match:   true
+                message: Must contain letters of digits
+        password:
+            - NotBlank: ~
+            - Regex:
+                pattern: '/^[а-яА-Яa-zA-Z\d]+$/'
+                match:   true
+                message: Must contain letters of digits
+        email:
+            - Email:
+                message: The email "{{ value }}" is not a valid email.
+    constraints:
+        - Callback: [validate]
+
+Partners\RegBundle\Entity\Site:
+    properties:
+        title:
+            - NotBlank: ~
+            - Url: ~

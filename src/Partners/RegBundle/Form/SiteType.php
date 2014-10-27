@@ -18,7 +18,8 @@ class SiteType extends AbstractType
             ->add('title', 'text', array(
                 'label' => 'Site',
                 'attr' => array('placeholder' => 'Site'),
-                'label_attr' =>  array('class' => 'col-md-4 control-label')
+
+                'required' => false
             ))
         ;
     }

@@ -1,3 +1,11 @@
 partners_reg_homepage:
     path:     /registration/
     defaults: { _controller: RegBundle:Default:index }
+
+partners_reg_user:
+    path:     /user_of_partner/
+    defaults: { _controller: RegBundle:Default:user }
+
+partners_reg_activation:
+    path:     /activate_registration/{code}/
+    defaults: { _controller: RegBundle:Default:activate }

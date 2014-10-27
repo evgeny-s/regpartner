@@ -14,6 +14,19 @@
     </head>
     <body>
         <div class="">
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="flash-notice text-center">
+                    <div class="message text-success">{{ flashMessage }}</div>
+                </div>
+            {% endfor %}
+
+            {# configure of twitter bootstrap#}
+            {{ bootstrap_set_style('horizontal') }}
+            {{ bootstrap_set_label_col(4) }}
+            {{ bootstrap_set_widget_col(4) }}
+            {{ bootstrap_set_col_size('md') }}
+            {# end_configure of twitter bootstrap#}
+
             {% block body %}{% endblock %}
         </div>
     </body>

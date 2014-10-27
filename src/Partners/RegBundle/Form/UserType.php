@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Partners\RegBundle\Entity\User;
+use Symfony\Component\Form\FormEvents;
 
 class UserType extends AbstractType
 {
@@ -18,36 +19,39 @@ class UserType extends AbstractType
         $builder
             ->add('fio', 'text', array(
                 'attr' => array('placeholder' => 'Firstname and Lastname'),
-                'label_attr' =>  array('class' => 'col-md-4 control-label')
+                'required' => false
             ))
             ->add('type', 'choice', array(
                 'choices' => array(User::TYPE_USER => 'User', User::TYPE_PARTNER => 'Partner'),
-                'label_attr' =>  array('class' => 'col-md-4 control-label'),
-                'label' => 'Registration type'
+                'label' => 'Registration type',
             ))
             ->add('phone', 'text', array(
                 'attr' => array('placeholder' => '+375-29-123-45-67'),
-                'label_attr' =>  array('class' => 'col-md-4 control-label')
+                'required' => false
             ))
             ->add('login', 'text', array(
                 'attr' => array('placeholder' => 'Login'),
-                'label_attr' =>  array('class' => 'col-md-4 control-label')
             ))
             ->add('password', 'password', array(
                 'attr' => array('placeholder' => 'Password'),
-                'label_attr' =>  array('class' => 'col-md-4 control-label')
             ))
             ->add('email', 'text', array(
                 'attr' => array('placeholder' => 'Email'),
-                'label_attr' =>  array('class' => 'col-md-4 control-label')
+                'required' => false
+            ))
+            ->add('partner_code', 'text', array(
+                'attr' => array('placeholder' => 'Your partner`s code'),
+                'required' => false
             ))
             ->add('userSites', 'collection', array(
                 'type' => new SiteType(),
                 'allow_add' => true,
+                'allow_delete' => true,
                 'by_reference' => false,
             ))
         ;
     }
+
     
     /**
      * @param OptionsResolverInterface $resolver
@@ -55,7 +59,8 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Partners\RegBundle\Entity\User'
+            'data_class' => 'Partners\RegBundle\Entity\User',
+            'cascade_validation' => true,
         ));
     }
 

@@ -2,3 +2,6 @@ services:
 #    reg.example:
 #        class: Partners\RegBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+    reg.password_gen:
+        class: Partners\RegBundle\Services\PasswordGenService
+        arguments: ["count_value"]
